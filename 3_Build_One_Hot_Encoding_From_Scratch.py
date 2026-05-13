@@ -30,20 +30,6 @@ class OneHotEncoder:
         vector[index] = 1
         return vector
 
-    def encode_sentence(self, sentence, max_len=None):
-        tokens = self._preprocess(sentence)
-        vectors = []
-        
-        if max_len:
-            tokens = tokens[:max_len]
-            while len(tokens) < max_len:
-                tokens.append("<PAD>")
-
-        for token in tokens:
-            vectors.append(self.get_one_hot_vector(token))
-            
-        return np.array(vectors)
-
 
 if __name__ == "__main__":
     sentences = [
@@ -54,12 +40,10 @@ if __name__ == "__main__":
     encoder = OneHotEncoder(sentences)
 
     print("\n[Step 4] Sentence Encoding (with Padding):")
-    test_sentence = "I love fun"
+    test_word = "love"
 
-    encoded_matrix = encoder.encode_sentence(test_sentence, max_len=5)
+    encoded_matrix = encoder.get_one_hot_vector(test_word)
     
-    print(f"  Input: '{test_sentence}' (Padded to length 5)")
-    print(f"  Matrix Shape: {encoded_matrix.shape} (Words x Vocab Size)")
+    print(f"  Input: '{test_word}' ")
     print("  One-hot Matrix:")
-    for row in encoded_matrix:
-        print(f"    {row.tolist()}")
+    print(encoded_matrix)
